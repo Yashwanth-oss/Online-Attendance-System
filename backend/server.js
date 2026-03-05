@@ -30,6 +30,10 @@ app.use("/api/auth", authRoutes);
 app.use("/api/students", studentRoutes);
 app.use("/api/attendance", attendanceRoutes);
 
+app.get("/", (req, res) => {
+  res.send("Backend is running!");
+});
+
 
 // Server Start
 const PORT = process.env.PORT || 5000;
