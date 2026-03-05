@@ -1,0 +1,205 @@
+/* ==========================
+   VIEW STUDENTS PAGE
+========================== */
+.table-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #eef2ff, #e0f2fe);
+  padding: 40px 20px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* ===== MAIN HEADING ===== */
+.main-heading {
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 40px;
+  color: #1e3a8a;
+  font-weight: 600;
+}
+
+/* ===== BRANCH SECTION ===== */
+.branch-section {
+  background: #ffffff;
+  padding: 25px;
+  margin-bottom: 40px;
+  border-radius: 14px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+.branch-heading {
+  font-size: 20px;
+  margin-bottom: 20px;
+  color: #1e40af;
+  font-weight: 600;
+}
+
+/* ===== TABLE ===== */
+.student-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.student-table thead {
+  background-color: #1e3a8a;
+  color: white;
+}
+
+.student-table th,
+.student-table td {
+  padding: 12px;
+  font-size: 14px;
+  text-align: center;
+}
+
+/* ===== COLUMN WIDTH ===== */
+.student-table th:nth-child(1),
+.student-table td:nth-child(1) {
+  width: 40%;
+  text-align: left;
+  padding-left: 15px;
+}
+
+.student-table th:nth-child(2),
+.student-table td:nth-child(2),
+.student-table th:nth-child(3),
+.student-table td:nth-child(3) {
+  width: 30%;
+}
+
+/* ===== ROW EFFECT ===== */
+.student-table tbody tr:nth-child(even) {
+  background-color: #f8fafc;
+}
+
+.student-table tbody tr:hover {
+  background-color: #e0f2fe;
+  transition: 0.2s ease;
+}
+
+/* ===== ACTION BUTTONS ===== */
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.edit-btn,
+.delete-btn {
+  padding: 6px 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  transition: 0.2s ease;
+}
+
+.edit-btn {
+  background-color: #2563eb;
+  color: white;
+}
+
+.edit-btn:hover {
+  background-color: #1d4ed8;
+}
+
+.delete-btn {
+  background-color: #dc2626;
+  color: white;
+}
+
+.delete-btn:hover {
+  background-color: #b91c1c;
+}
+
+/* ===== EDIT MODAL LIKE LOGIN PAGE ===== */
+.edit-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.edit-box {
+  background: #ffffff;
+  padding: 40px 30px;
+  border-radius: 12px;
+  width: 350px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  text-align: center;
+}
+
+.edit-box h3 {
+  margin-bottom: 25px;
+  color: #1e3a8a;
+}
+
+.edit-box input {
+  width: 100%;
+  padding: 12px 14px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+.edit-box input:focus {
+  outline: none;
+  border-color: #1e3a8a;
+  box-shadow: 0 0 5px rgba(30, 58, 138, 0.3);
+}
+
+/* ===== MODAL BUTTONS ===== */
+.modal-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.update-btn {
+  background-color: #00b894;
+  color: white;
+  border-radius: 8px;
+  width: 48%;
+  padding: 12px 0;
+  font-weight: bold;
+}
+
+.update-btn:hover {
+  background-color: #019875;
+}
+
+.cancel-btn {
+  background-color: #6b7280;
+  color: white;
+  border-radius: 8px;
+  width: 48%;
+  padding: 12px 0;
+  font-weight: bold;
+}
+
+.cancel-btn:hover {
+  background-color: #4b5563;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .student-table th,
+  .student-table td {
+    font-size: 12px;
+    padding: 8px;
+  }
+
+  .edit-box {
+    width: 90%;
+    padding: 30px 20px;
+  }
+}

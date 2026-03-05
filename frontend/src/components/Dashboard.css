@@ -1,0 +1,81 @@
+/* ===== PAGE BACKGROUND ===== */
+.dashboard-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #e0f2fe, #eef2ff);
+  padding: 40px 20px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* ===== CONTAINER ===== */
+.container {
+  max-width: 1100px;
+  margin: auto;
+}
+
+/* ===== HEADING ===== */
+.dashboard-heading {
+  text-align: center;
+  font-size: 32px;
+  color: #1e3a8a;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.date-text {
+  text-align: center;
+  margin-bottom: 40px;
+  color: #475569;
+  font-weight: 500;
+}
+
+/* ===== GRID (2 CARDS PER ROW) ===== */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+}
+
+/* ===== CARD ===== */
+.branch-card {
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 18px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+  transition: 0.3s ease;
+  text-align: center;
+}
+
+.branch-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.12);
+}
+
+.branch-card h3 {
+  font-size: 22px;
+  margin-bottom: 20px;
+  color: #1e40af;
+}
+
+.branch-card p {
+  font-size: 15px;
+  margin: 8px 0;
+  color: #334155;
+}
+
+/* ===== STATUS COLORS ===== */
+.present {
+  color: #16a34a;
+  font-weight: 600;
+}
+
+.absent {
+  color: #dc2626;
+  font-weight: 600;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .cards-grid {
+    grid-template-columns: 1fr;
+  }
+}

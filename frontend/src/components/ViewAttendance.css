@@ -1,0 +1,130 @@
+/* ===== PAGE BACKGROUND ===== */
+.attendance-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #e0f2fe, #eef2ff);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* ===== CONTAINER ===== */
+.container {
+  width: 100%;
+  max-width: 1200px;
+}
+
+/* ===== CARD DESIGN ===== */
+.attendance-card {
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+}
+
+/* ===== MAIN HEADING ===== */
+.attendance-card h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #1e3a8a;
+  font-size: 26px;
+  font-weight: 600;
+}
+
+/* ===== BRANCH TITLE ===== */
+.attendance-card h3 {
+  margin-bottom: 15px;
+  color: #1e40af;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+/* ===== TABLE ===== */
+.attendance-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 30px;
+}
+
+/* ===== TABLE HEADER ===== */
+.attendance-table thead {
+  background-color: #1e3a8a;
+  color: white;
+}
+
+.attendance-table th {
+  padding: 14px 10px;
+  text-align: center;
+  font-size: 15px;
+  letter-spacing: 0.5px;
+}
+
+/* ===== COLUMN WIDTH ARRANGEMENT ===== */
+.attendance-table th:nth-child(1),
+.attendance-table td:nth-child(1) {
+  width: 25%;
+  text-align: left;
+  padding-left: 20px;
+}
+
+.attendance-table th:nth-child(2),
+.attendance-table td:nth-child(2) {
+  width: 20%;
+}
+
+.attendance-table th:nth-child(3),
+.attendance-table td:nth-child(3) {
+  width: 15%;
+  font-weight: 600;
+}
+
+.attendance-table th:nth-child(4),
+.attendance-table td:nth-child(4) {
+  width: 20%;
+}
+
+.attendance-table th:nth-child(5),
+.attendance-table td:nth-child(5) {
+  width: 20%;
+}
+
+/* ===== TABLE BODY ===== */
+.attendance-table td {
+  padding: 12px 10px;
+  text-align: center;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 14px;
+}
+
+/* ===== ROW STYLING ===== */
+.attendance-table tbody tr:nth-child(even) {
+  background-color: #f8fafc;
+}
+
+.attendance-table tbody tr:hover {
+  background-color: #e0f2fe;
+  transition: 0.2s ease;
+}
+
+/* ===== STATUS COLORS ===== */
+.present {
+  color: #16a34a;
+}
+
+.absent {
+  color: #dc2626;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .attendance-card {
+    padding: 20px;
+  }
+
+  .attendance-table th,
+  .attendance-table td {
+    font-size: 12px;
+    padding: 8px;
+  }
+}
