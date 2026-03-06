@@ -1,46 +1,57 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios"; 
+import axios from "axios";
 import "./Login.css";
 
 function Login() {
+  const navigate = useNavigate();
+  const backendURL =
+    process.env.REACT_APP_BACKEND_URL ||
+    "https://online-attendance-system-rgth.onrender.com";
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");      // ✅ Added
-  const [success, setSuccess] = useState("");  // ✅ Added
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const navigate = useNavigate();
+  // Check login status on component mount
+  useEffect(() => {
+    const loggedIn = localStorage.getItem("isLoggedIn");
+    if (loggedIn === "true") {
+      setIsLoggedIn(true);
+    }
+  }, []);
 
   const handleLogin = async () => {
     setError("");
-    setSuccess("");
-
     if (!email || !password) {
-      setError("Please fill all fields");   // ✅ Instead of alert
+      setError("Please fill all fields");
       return;
     }
 
+    setLoading(true);
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/login", {
-        email,
-        password
-      });
+      const res = await axios.post(`${backendURL}/api/auth/login`, { email, password });
 
-      // Save token or login flag
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("isLoggedIn", "true");
+      setIsLoggedIn(true);
 
-      setSuccess("Login Successful!");   // ✅ Show success message
-
-      // ✅ Redirect after 2 seconds
-      setTimeout(() => {
-        navigate("/dashboard");   // change if your dashboard path is different
-      }, 2000);
-
+      navigate("/dashboard"); // Go to dashboard
     } catch (err) {
-      console.log(err);
-      setError(err.response?.data?.message || "Invalid Credentials"); // ✅ Instead of alert
+      console.error(err);
+      setError(err.response?.data?.message || "Invalid Credentials");
+    } finally {
+      setLoading(false);
     }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("isLoggedIn");
+    setIsLoggedIn(false);
+    navigate("/login"); // Stay on login page
   };
 
   return (
@@ -48,35 +59,49 @@ function Login() {
       <div className="login-card">
         <h2>🔐 Admin Login</h2>
 
-        <input
-          type="email"
-          placeholder="Enter Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        {error && <div className="error-msg">{error}</div>}   {/* ✅ Added */}
+        {isLoggedIn ? (
+          <>
+            <p>You are already logged in.</p>
+            <button
+              onClick={handleLogout}
+              style={{ backgroundColor: "red", color: "white", padding: "10px 20px" }}
+            >
+              Logout
+            </button>
+          </>
+        ) : (
+          <>
+            <input
+              type="email"
+              placeholder="Enter Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
 
-        <input
-          type="password"
-          placeholder="Enter Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        {error && <div className="error-msg">{error}</div>}   {/* ✅ Added */}
+            <input
+              type="password"
+              placeholder="Enter Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
 
-        <button onClick={handleLogin}>Login</button>
+            {error && <div className="error-msg">{error}</div>}
 
-        {success && <div className="success-msg">{success}</div>} {/* ✅ Added */}
+            <button onClick={handleLogin} disabled={loading}>
+              {loading ? "Logging in..." : "Login"}
+            </button>
 
-        <p style={{ marginTop: "15px" }}>
-          Don't have an account?{" "}
-          <span
-            style={{ color: "blue", cursor: "pointer", textDecoration: "underline" }}
-            onClick={() => navigate("/register")}
-          >
-            Register
-          </span>
-        </p>
+            <p style={{ marginTop: "15px" }}>
+              Don't have an account?{" "}
+              <span
+                style={{ color: "blue", cursor: "pointer" }}
+                onClick={() => navigate("/register")}
+              >
+                Register
+              </span>
+            </p>
+          </>
+        )}
       </div>
     </div>
   );

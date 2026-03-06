@@ -5,20 +5,25 @@ import "./ViewStudents.css";
 function ViewStudents() {
   const [students, setStudents] = useState([]);
   const [editStudent, setEditStudent] = useState(null);
+  const backendURL = process.env.REACT_APP_BACKEND_URL;
 
   useEffect(() => {
     fetchStudents();
-  }, []);
+  }, );
 
   const fetchStudents = async () => {
-    const res = await axios.get("http://localhost:5000/api/students");
-    setStudents(res.data);
+    try {
+      const res = await axios.get(`${backendURL}/api/students`);
+      setStudents(res.data);
+    } catch (error) {
+      console.error("Fetch students failed", error);
+    }
   };
 
   // ✅ DELETE
   const deleteStudent = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/students/${id}`);
+      await axios.delete(`${backendURL}/api/students/${id}`);
       fetchStudents();
     } catch (error) {
       console.error("Delete failed", error);
@@ -29,7 +34,7 @@ function ViewStudents() {
   const updateStudent = async () => {
     try {
       await axios.put(
-        `http://localhost:5000/api/students/${editStudent._id}`,
+        `${backendURL}/api/students/${editStudent._id}`,
         editStudent
       );
       setEditStudent(null);
@@ -58,6 +63,7 @@ function ViewStudents() {
                 <th>Action</th>
               </tr>
             </thead>
+
             <tbody>
               {students
                 .filter((student) => student.branch === branch)
@@ -73,6 +79,7 @@ function ViewStudents() {
                         >
                           Edit
                         </button>
+
                         <button
                           className="delete-btn"
                           onClick={() => deleteStudent(student._id)}
@@ -114,6 +121,7 @@ function ViewStudents() {
               <button className="update-btn" onClick={updateStudent}>
                 Update
               </button>
+
               <button
                 className="cancel-btn"
                 onClick={() => setEditStudent(null)}

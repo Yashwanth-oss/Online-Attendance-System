@@ -4,7 +4,12 @@ import axios from "axios";
 import "./Register.css";
 
 function Register() {
+
   const navigate = useNavigate();
+
+  const backendURL =
+    process.env.REACT_APP_BACKEND_URL ||
+    "https://online-attendance-system-rgth.onrender.com";
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -14,6 +19,7 @@ function Register() {
   const [success, setSuccess] = useState("");
 
   const handleRegister = async () => {
+
     setError("");
     setSuccess("");
 
@@ -23,28 +29,35 @@ function Register() {
     }
 
     try {
-      await axios.post("http://localhost:5000/api/auth/register", {
+
+      await axios.post(`${backendURL}/api/auth/register`, {
         name,
         email,
-        password,
+        password
       });
 
       setSuccess("Admin Registered Successfully!");
 
-      // Hide success after 2 seconds & navigate
       setTimeout(() => {
-        setSuccess("");
         navigate("/login");
-      }, 2000);
+      }, 1000);
 
     } catch (err) {
-      setError(err.response?.data?.message || "Registration failed");
+
+      console.error(err);
+
+      setError(
+        err.response?.data?.message || "Registration failed"
+      );
+
     }
   };
 
   return (
     <div className="register-container">
+
       <div className="register-card">
+
         <h2>📝 Admin Register</h2>
 
         <input
@@ -53,7 +66,6 @@ function Register() {
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
-        {error && <div className="error-msg">{error}</div>}
 
         <input
           type="email"
@@ -61,26 +73,31 @@ function Register() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-        {error && <div className="error-msg">{error}</div>}
 
-        <input
-          type="password"
-          placeholder="Enter Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        {error && <div className="error-msg">{error}</div>}
+       <input
+  type="password"
+  placeholder="Enter Password"
+  value={password}
+  onChange={(e) => setPassword(e.target.value)}
+/>
 
-        <button onClick={handleRegister}>Register</button>
+<button onClick={handleRegister}>Register</button>
 
-        {success && <div className="success-msg">{success}</div>}
+{/* Success message ONLY under the button */}
+{success && <div className="success-msg" style={{ marginTop: "10px" }}>{success}</div>}
 
-        <p>
-          Already have an account?{" "}
-          <span onClick={() => navigate("/login")}>
-            Login
-          </span>
-        </p>
+{error && <div className="error-msg">{error}</div>}
+
+<p>
+  Already have an account?{" "}
+  <span
+    style={{ color: "blue", cursor: "pointer" }}
+    onClick={() => navigate("/login")}
+  >
+    Login
+  </span>
+</p>
+
       </div>
     </div>
   );

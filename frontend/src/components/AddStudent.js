@@ -8,8 +8,9 @@ function AddStudent() {
   const [branch, setBranch] = useState("");
 
   const [errors, setErrors] = useState({});
-  const [success, setSuccess] = useState("");   // ✅ success state
-
+  const [success, setSuccess] = useState("");  
+   // ✅ success state
+const backendURL = process.env.REACT_APP_BACKEND_URL;
   const handleSubmit = async () => {
     let newErrors = {};
     setSuccess(""); // clear old success message
@@ -24,7 +25,7 @@ function AddStudent() {
     }
 
     try {
-      await axios.post("http://localhost:5000/api/students/add", {
+      await axios.post(`${backendURL}/api/students/add`, {
         name,
         usn,
         branch

@@ -5,14 +5,20 @@ import "./MarkAttendance.css";
 function MarkAttendance() {
   const [students, setStudents] = useState([]);
   const [attendance, setAttendance] = useState({});
-  const [message, setMessage] = useState(""); // ✅ success/error message
+  const [message, setMessage] = useState("");
+  const backendURL = process.env.REACT_APP_BACKEND_URL;
 
   useEffect(() => {
+    if (!backendURL) {
+      console.log("Backend URL not found in .env");
+      return;
+    }
+
     axios
-      .get("http://localhost:5000/api/students")
+      .get(`${backendURL}/api/students`)
       .then((res) => setStudents(res.data))
-      .catch((err) => console.log(err));
-  }, []);
+      .catch((err) => console.log("Student API Error:", err));
+  }, [backendURL]);
 
   const handleChange = (id, status) => {
     setAttendance({ ...attendance, [id]: status });
@@ -30,25 +36,24 @@ function MarkAttendance() {
         status: attendance[id],
       }));
 
-      await axios.post(
-        "http://localhost:5000/api/attendance/mark",
-        records
-      );
+      await axios.post(`${backendURL}/api/attendance/mark`, records);
 
       setMessage("✅ Attendance Marked Successfully!");
       setAttendance({});
 
-      // Clear message after 2 sec
       setTimeout(() => setMessage(""), 2000);
     } catch (error) {
+      console.log("Attendance Submit Error:", error);
       setMessage("❌ Error marking attendance");
       setTimeout(() => setMessage(""), 2000);
     }
   };
 
   const groupedStudents = students.reduce((acc, student) => {
-    if (!acc[student.branch]) acc[student.branch] = [];
-    acc[student.branch].push(student);
+    const branch = student.branch || "Unknown";
+
+    if (!acc[branch]) acc[branch] = [];
+    acc[branch].push(student);
     return acc;
   }, {});
 
@@ -122,7 +127,6 @@ function MarkAttendance() {
             Submit Attendance
           </button>
 
-          {/* ✅ Message below button */}
           {message && <p className="attendance-message">{message}</p>}
         </div>
       </div>

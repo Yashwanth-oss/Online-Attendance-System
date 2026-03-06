@@ -4,17 +4,25 @@ import "./ViewAttendance.css";
 
 function ViewAttendance() {
   const [attendanceData, setAttendanceData] = useState([]);
+  const backendURL = process.env.REACT_APP_BACKEND_URL;
 
   useEffect(() => {
+    if (!backendURL) {
+      console.log("Backend URL not found in .env");
+      return;
+    }
+
     axios
-      .get("http://localhost:5000/api/attendance")
+      .get(`${backendURL}/api/attendance`)
       .then((res) => setAttendanceData(res.data))
-      .catch((err) => console.log(err));
-  }, []);
+      .catch((err) => console.log("Attendance API Error:", err));
+  }, [backendURL]);
 
   // 🔥 Group Attendance by Branch
   const groupedByBranch = attendanceData.reduce((acc, record) => {
-    const branch = record.studentId?.branch || "Unknown";
+    if (!record.studentId) return acc;
+
+    const branch = record.studentId.branch || "Unknown";
 
     if (!acc[branch]) {
       acc[branch] = [];
@@ -54,23 +62,30 @@ function ViewAttendance() {
                 <tbody>
                   {groupedByBranch[branch].map((attendance) => (
                     <tr key={attendance._id}>
-                      <td>{attendance.studentId?.name}</td>
-                      <td>{attendance.studentId?.usn}</td>
+                      <td>{attendance.studentId?.name || "N/A"}</td>
+                      <td>{attendance.studentId?.usn || "N/A"}</td>
                       <td>{attendance.status}</td>
 
                       <td>
-                        {new Date(attendance.date)
-                          .toLocaleDateString("en-GB")
-                          .split("/")
-                          .join(" - ")}
+                        {attendance.date
+                          ? new Date(attendance.date)
+                              .toLocaleDateString("en-GB")
+                              .split("/")
+                              .join(" - ")
+                          : "N/A"}
                       </td>
 
                       <td>
-                        {new Date(attendance.date).toLocaleTimeString("en-IN", {
-                          hour: "2-digit",
-                          minute: "2-digit",
-                          hour12: true,
-                        })}
+                        {attendance.date
+                          ? new Date(attendance.date).toLocaleTimeString(
+                              "en-IN",
+                              {
+                                hour: "2-digit",
+                                minute: "2-digit",
+                                hour12: true,
+                              }
+                            )
+                          : "N/A"}
                       </td>
                     </tr>
                   ))}
@@ -78,7 +93,6 @@ function ViewAttendance() {
               </table>
             </div>
           ))}
-
         </div>
       </div>
     </div>
